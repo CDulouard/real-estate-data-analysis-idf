@@ -1,11 +1,6 @@
-from pathlib import Path
-
+from data.referential.communes._constantes import _communes_data_csv_file, _communes_data_geojson_file, \
+    _communes_csv_data_url, _communes_geojson_data_url
 from src.data.extract import download_and_replace_file
-
-__csv_data_url = "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/correspondance-code-insee-code-postal/exports/csv?lang=fr&timezone=Europe%2FBerlin&use_labels=true&delimiter=%3B"
-__geojson_data_url = "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/correspondance-code-insee-code-postal/exports/geojson?lang=fr&timezone=Europe%2FBerlin"
-__output_csv_file_path = f"{Path(__file__).parent}/code_insee_code_postal.csv"
-__output_geojson_file_path = f"{Path(__file__).parent}/communes_fr.geojson"
 
 
 def download_all() -> None:
@@ -14,8 +9,8 @@ def download_all() -> None:
 
 
 def __download_csv_data() -> None:
-    download_and_replace_file(__csv_data_url, __output_csv_file_path)
+    download_and_replace_file(_communes_csv_data_url, _communes_data_csv_file)
 
 
 def __download_geojson_data() -> None:
-    download_and_replace_file(__geojson_data_url, __output_geojson_file_path)
+    download_and_replace_file(_communes_geojson_data_url, _communes_data_geojson_file)

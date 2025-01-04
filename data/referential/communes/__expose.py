@@ -1,34 +1,61 @@
 import json
-from pathlib import Path
+import copy
+from enum import Enum
 
 import pandas as pd
 
-
-# Legacy
-# ======================================================================================================================
-
-def from_string_list_to_string(elem: str) -> str:
-    return elem.replace("[", '').replace("]", '')[1:-1]
+from data.referential.communes._constantes import _communes_data_csv_file, _communes_data_geojson_file
 
 
-def fix_geo_shape(record: dict) -> dict:
-    fixed_record = record.copy()
-    fixed_record["coordinates"][0] = [[point[1], point[0]] for point in record["coordinates"][0]]
-    return fixed_record
+class CommunesGeojsonDictKey(Enum):
+    POSTAL_CODE = "postal_code"
+    INSEE_CODE = "insee_com"
+    NAME = "nom_comm"
 
 
-def load_insee_codes_communes_df() -> pd.DataFrame:
-    data = pd.read_csv(f"{Path(__file__).parent}/correspondance-code-insee-code-postal.csv", sep=";", low_memory=False)
-    data["Département"] = data["Département"].apply(from_string_list_to_string)
-    data["Région"] = data["Région"].apply(from_string_list_to_string)
-    data["Statut"] = data["Statut"].apply(from_string_list_to_string)
-    data["geo_shape"] = data["geo_shape"].apply(lambda x: json.loads(x))
-    data["geo_shape"] = data["geo_shape"].apply(fix_geo_shape)
-    return data
+class Communes:
+    __dataframe: pd.DataFrame
+    __geojson_data: dict
+
+    def __init__(self):
+        __full_dataframe = pd.read_csv(_communes_data_csv_file, sep=";", low_memory=False)
+        __full_dataframe = Communes.__fix_dataframe(__full_dataframe)
+        self.__dataframe = __full_dataframe.copy()
+        with open(_communes_data_geojson_file, 'r') as file:
+            self.__geojson_data = json.load(file)
+
+    @staticmethod
+    def __from_string_list_to_string(elem: str) -> str:
+        return elem.replace("[", '').replace("]", '')[1:-1]
+
+    @staticmethod
+    def __fix_dataframe(df: pd.DataFrame):
+        df["Département"] = df["Département"].apply(Communes.__from_string_list_to_string)
+        df["Région"] = df["Région"].apply(Communes.__from_string_list_to_string)
+        df["Statut"] = df["Statut"].apply(Communes.__from_string_list_to_string)
+        df["geo_shape"] = df["geo_shape"].apply(lambda x: json.loads(x))
+        return df.drop(columns=["geo_point_2d", "geo_shape"])
+
+    @property
+    def full_dataframe(self) -> pd.DataFrame:
+        return self.__dataframe.copy()
+
+    @property
+    def geojson_data(self) -> dict:
+        return copy.deepcopy(self.__geojson_data)
+
+    def get_geojson_communes_dict(self, key: CommunesGeojsonDictKey = CommunesGeojsonDictKey.INSEE_CODE) -> dict:
+        geojson = self.geojson_data
+        geojson_dict = {}
+        for commune in geojson["features"]:
+            geojson_dict[commune["properties"][key.value]] = {
+                "type": "FeatureCollection",
+                "features": [
+                    commune
+                ]
+            }
+        return geojson_dict
 
 
-def load_insee_codes_communes_short_df() -> pd.DataFrame:
-    columns_to_drop = ["Statut", "Altitude Moyenne", "Superficie", "Population", "geo_point_2d", "geo_shape"]
-    return load_insee_codes_communes_df().drop(columns=columns_to_drop)
-
-# ======================================================================================================================
+if __name__ == "__main__":
+    communes = Communes()
