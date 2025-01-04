@@ -15,12 +15,9 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-import data.referential.communes as communes
-import data.referential.departements as departements
-import data.referential.regions as regions
+from pathlib import Path
 
-
-def download_all() -> None:
-    communes.download_all()
-    departements.download_all()
-    regions.download_all()
+_regions_data_csv_file = f"{Path(__file__).parent}/code_insee_regions.csv"
+_regions_data_geojson_file = f"{Path(__file__).parent}/regions_fr.geojson"
+_regions_csv_data_url = "https://data.opendatasoft.com/api/explore/v2.1/catalog/datasets/regions-et-collectivites-doutre-mer-france@toursmetropole/exports/csv?lang=fr&timezone=Europe%2FBerlin&use_labels=true&delimiter=%3B"
+_regions_geojson_data_url = "https://data.opendatasoft.com/api/explore/v2.1/catalog/datasets/regions-et-collectivites-doutre-mer-france@toursmetropole/exports/geojson?lang=fr&timezone=Europe%2FBerlin"
