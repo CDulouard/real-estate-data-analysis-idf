@@ -8,9 +8,9 @@ from data.referential.communes._constantes import _communes_data_csv_file, _comm
 
 
 class CommunesGeojsonDictKey(Enum):
-    POSTAL_CODE = "postal_code"
-    INSEE_CODE = "insee_com"
-    NAME = "nom_comm"
+    CODE_POSTAL = "postal_code"
+    CODE_INSEE = "insee_com"
+    NOM = "nom_comm"
 
 
 class Communes:
@@ -34,7 +34,7 @@ class Communes:
         df["Région"] = df["Région"].apply(Communes.__from_string_list_to_string)
         df["Statut"] = df["Statut"].apply(Communes.__from_string_list_to_string)
         df["geo_shape"] = df["geo_shape"].apply(lambda x: json.loads(x))
-        return df.drop(columns=["geo_point_2d", "geo_shape"])
+        return df.drop(columns=["geo_shape"])
 
     @property
     def full_dataframe(self) -> pd.DataFrame:
@@ -44,7 +44,7 @@ class Communes:
     def geojson_data(self) -> dict:
         return copy.deepcopy(self.__geojson_data)
 
-    def get_geojson_communes_dict(self, key: CommunesGeojsonDictKey = CommunesGeojsonDictKey.INSEE_CODE) -> dict:
+    def get_geojson_communes_dict(self, key: CommunesGeojsonDictKey = CommunesGeojsonDictKey.CODE_INSEE) -> dict:
         geojson = self.geojson_data
         geojson_dict = {}
         for commune in geojson["features"]:
@@ -55,7 +55,3 @@ class Communes:
                 ]
             }
         return geojson_dict
-
-
-if __name__ == "__main__":
-    communes = Communes()

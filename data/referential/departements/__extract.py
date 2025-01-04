@@ -1,11 +1,6 @@
-from pathlib import Path
-
+from data.referential.departements._constantes import _departements_csv_data_url, _departements_geojson_data_url, _departements_data_csv_file, \
+    _departements_data_geojson_file
 from src.data.extract import download_and_replace_file
-
-__csv_data_url = "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/contours-geographiques-tres-simplifies-des-departements-2019/exports/csv?lang=fr&timezone=Europe%2FBerlin&use_labels=true&delimiter=%3B"
-__geojson_data_url = "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/contours-geographiques-tres-simplifies-des-departements-2019/exports/geojson?lang=fr&timezone=Europe%2FBerlin"
-__output_csv_file_path = f"{Path(__file__).parent}/code_insee_departements.csv"
-__output_geojson_file_path = f"{Path(__file__).parent}/departements_fr.geojson"
 
 
 def download_all() -> None:
@@ -14,8 +9,8 @@ def download_all() -> None:
 
 
 def __download_csv_data() -> None:
-    download_and_replace_file(__csv_data_url, __output_csv_file_path)
+    download_and_replace_file(_departements_csv_data_url, _departements_data_csv_file)
 
 
 def __download_geojson_data() -> None:
-    download_and_replace_file(__geojson_data_url, __output_geojson_file_path)
+    download_and_replace_file(_departements_geojson_data_url, _departements_data_geojson_file)

@@ -1,1 +1,1 @@
-source: https://public.opendatasoft.com/explore/dataset/contours-geographiques-tres-simplifies-des-departements-2019/export/
+source: https://public.opendatasoft.com/explore/dataset/georef-france-departement/export/?disjunctive.reg_name&disjunctive.dep_name&sort=year
