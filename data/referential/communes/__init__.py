@@ -1,1 +1,2 @@
-from data.referential.communes.loader import load_insee_codes_communes_df, load_insee_codes_communes_short_df
+from data.referential.communes.__extract import download_all
+from data.referential.communes.__expose import load_insee_codes_communes_df, load_insee_codes_communes_short_df

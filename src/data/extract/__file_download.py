@@ -1,0 +1,45 @@
+import requests
+import os
+import logging
+import tempfile
+import shutil
+
+
+def download_raw_file(url: str, output_file: str) -> None:
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        with open(output_file, 'wb') as file:
+            file.write(response.content)
+        logging.info(f"File {output_file} downloaded successfully")
+    else:
+        logging.error(f"Failed to retrieve the file {output_file}. Status code: {response.status_code}")
+        raise Exception("Download failed")
+
+
+def delete_file_if_exist(target_file: str) -> None:
+    if os.path.exists(target_file):
+        os.remove(target_file)
+        logging.info(f"File '{target_file}' has been deleted.")
+    else:
+        logging.info(f"File '{target_file}' does not exist, nothing to do")
+
+
+def download_and_replace_file(url: str, output_file: str) -> None:
+    logging.info(f"Preparing to replace the file: {output_file}")
+    with tempfile.NamedTemporaryFile(delete=False) as temp_file:
+        temp_path = temp_file.name
+
+    try:
+        logging.info(f"Downloading the file to a temporary location: {temp_path}")
+        download_raw_file(url, temp_path)
+        delete_file_if_exist(output_file)
+        shutil.move(temp_path, output_file)
+        logging.info(f"File {output_file} has been replaced successfully.")
+
+    except Exception as e:
+        logging.error(f"An error occurred: {e}")
+        if os.path.exists(temp_path):
+            os.remove(temp_path)
+            logging.info(f"Temporary file {temp_path} has been removed.")
+        raise

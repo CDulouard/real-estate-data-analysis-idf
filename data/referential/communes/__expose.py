@@ -4,6 +4,9 @@ from pathlib import Path
 import pandas as pd
 
 
+# Legacy
+# ======================================================================================================================
+
 def from_string_list_to_string(elem: str) -> str:
     return elem.replace("[", '').replace("]", '')[1:-1]
 
@@ -27,3 +30,5 @@ def load_insee_codes_communes_df() -> pd.DataFrame:
 def load_insee_codes_communes_short_df() -> pd.DataFrame:
     columns_to_drop = ["Statut", "Altitude Moyenne", "Superficie", "Population", "geo_point_2d", "geo_shape"]
     return load_insee_codes_communes_df().drop(columns=columns_to_drop)
+
+# ======================================================================================================================
