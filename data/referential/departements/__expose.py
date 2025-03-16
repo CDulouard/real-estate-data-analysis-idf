@@ -44,17 +44,15 @@ class Departements:
     def __from_string_list_to_string(elem: str) -> str:
         return elem.replace("[", '').replace("]", '')[1:-1]
 
-    @property
     def full_dataframe(self) -> pd.DataFrame:
         return self.__dataframe.copy()
 
-    @property
     def geojson_data(self) -> dict:
         return copy.deepcopy(self.__geojson_data)
 
     def get_geojson_departements_dict(self,
                                       key: DepartementsGeojsonDictKey = DepartementsGeojsonDictKey.CODE_INSEE) -> dict:
-        geojson = self.geojson_data
+        geojson = self.geojson_data()
         geojson_dict = {}
         for departement in geojson["features"]:
             dict_key = departement["properties"][key.value][0] if type(

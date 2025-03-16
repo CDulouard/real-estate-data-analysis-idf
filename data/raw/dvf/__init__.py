@@ -16,3 +16,4 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 from data.raw.dvf.__extract import download_all
+from data.raw.dvf.__expose import DVF

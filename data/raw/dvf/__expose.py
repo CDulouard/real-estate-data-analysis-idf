@@ -15,4 +15,19 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from data.clean.__clean import clean_all
+import pandas as pd
+
+from data.raw.dvf._constants import _dtype_mapping_with_numerical_values, _dvf_data_csv_file, _date_columns
+
+
+class DVF:
+    __dataframe: pd.DataFrame
+
+    def __init__(self):
+        self.__dataframe = pd.read_csv(_dvf_data_csv_file,
+                                       parse_dates=_date_columns,
+                                       dtype=_dtype_mapping_with_numerical_values,
+                                       sep=";")
+
+    def full_dataframe(self) -> pd.DataFrame:
+        return self.__dataframe.copy()

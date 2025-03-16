@@ -15,4 +15,8 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from data.clean.__clean import clean_all
+import data.clean.dvf as dvf
+
+
+def clean_all() -> None:
+    dvf.clean_all()

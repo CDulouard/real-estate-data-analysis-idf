@@ -23,8 +23,8 @@ import pandas as pd
 
 from data.referential.departements import Departements
 
-from data.raw.dvf._constants import _dvf_base_url, _dvf_departement_parameter, _dtype_mapping, _float_columns, \
-    _dvf_data_csv_file
+from data.raw.dvf._constants import _dvf_base_url, _dvf_departement_parameter, _dtype_maping_only_string, \
+    _float_columns, _dvf_data_csv_file, _date_columns
 
 
 def __fetch_data_of_departement(departement_code: str) -> pd.DataFrame:
@@ -41,7 +41,8 @@ def __fetch_data_of_departement(departement_code: str) -> pd.DataFrame:
         logging.info(f"No data to retrieve for departement number {departement_code}")
         return pd.DataFrame()
 
-    response_dataframe = pd.read_csv(BytesIO(response.content), parse_dates=["date_mutation"], dtype=_dtype_mapping,
+    response_dataframe = pd.read_csv(BytesIO(response.content), parse_dates=_date_columns,
+                                     dtype=_dtype_maping_only_string,
                                      low_memory=False)
     for float_column in _float_columns:
         response_dataframe[float_column] = pd.to_numeric(response_dataframe[float_column], errors="coerce")
