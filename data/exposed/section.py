@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import pandas as pd
 
 import data.referential.sections as ref_sections
-from data.domain.commune import Commune
+from data.exposed.commune import Commune
 
 
 class Section:

@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import pandas as pd
 
 import data.referential.communes as ref_communes
-from data.domain.departement import Departement
+from data.exposed.departement import Departement
 
 
 class Commune:

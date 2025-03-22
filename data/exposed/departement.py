@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import pandas as pd
 
 import data.referential.departements as ref_departements
-from data.domain.region import Region
+from data.exposed.region import Region
 
 
 class Departement:
