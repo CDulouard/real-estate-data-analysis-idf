@@ -15,14 +15,16 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-import data.referential.communes as communes
-import data.referential.departements as departements
-import data.referential.regions as regions
-import data.referential.sections as sections
+from pathlib import Path
 
+_sections_data_csv_file = f"{Path(__file__).parent}/sections_cadastre.csv"
+_sections_data_geojson_file = f"{Path(__file__).parent}/sections_cadastre.geojson"
+_sections_geojson_data_url = "https://cadastre.data.gouv.fr/data/etalab-cadastre/2025-01-01/geojson/france/cadastre-france-sections.json.gz"
 
-def download_all() -> None:
-    communes.download_all()
-    departements.download_all()
-    regions.download_all()
-    sections.download_all()
+_dtype_mapping_with_numerical_values = {
+    "id": "string",
+    "code_insee_commune": "string",
+    "prefixe": "string",
+    "code": "string",
+    "geojson_shape": "object"
+}

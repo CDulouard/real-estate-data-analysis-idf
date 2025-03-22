@@ -1,3 +1,20 @@
+"""
+Copyright (C) 2025  Clément Dulouard
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+"""
+
 import pandas as pd
 
 import data.referential.communes as ref_communes
@@ -13,7 +30,7 @@ class Commune:
     longitude: float
     latitude: float
     geojson_shape: dict
-    departement: Departement
+    departement: Departement | None
 
     def __init__(self, code_insee: str, load_parents: bool = False):
         if Commune.__insee_data_communes is None or Commune.__geodata_communes is None:
@@ -50,6 +67,3 @@ class Commune:
         insee_data_communes = insee_communes_data_provider.full_dataframe()
 
         return [Commune(insee_code, load_parents) for insee_code in insee_data_communes["Code INSEE"].values]
-
-if __name__ == "__main__":
-    Commune.get_all(load_parents=True)

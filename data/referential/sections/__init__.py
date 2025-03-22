@@ -15,14 +15,5 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-import data.referential.communes as communes
-import data.referential.departements as departements
-import data.referential.regions as regions
-import data.referential.sections as sections
-
-
-def download_all() -> None:
-    communes.download_all()
-    departements.download_all()
-    regions.download_all()
-    sections.download_all()
+from data.referential.sections.__extract import download_all
+from data.referential.sections.__expose import Section

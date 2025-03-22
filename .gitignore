@@ -178,3 +178,4 @@ data/**/**.json
 data/**/**.txt
 data/**/**.pdf
 data/**/**.geojson
+data/**/**.gz

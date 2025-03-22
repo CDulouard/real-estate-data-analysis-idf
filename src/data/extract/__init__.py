@@ -15,4 +15,5 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from src.data.extract.__file_download import download_raw_file, delete_file_if_exist, download_and_replace_file
+from src.data.extract.__file_download import download_raw_file, delete_file_if_exist, download_and_replace_file, \
+    extract_gzip

@@ -16,6 +16,7 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
+import gzip
 import requests
 import os
 import logging
@@ -61,3 +62,11 @@ def download_and_replace_file(url: str, output_file: str) -> None:
             os.remove(temp_path)
             logging.info(f"Temporary file {temp_path} has been removed.")
         raise
+
+
+def extract_gzip(gzip_file: str) -> None:
+    output_directory = os.path.dirname(gzip_file)
+    output_file = os.path.basename(gzip_file)[:-3]
+    with gzip.open(gzip_file, 'rb') as f_in:
+        with open(f"{output_directory}/{output_file}", 'wb') as f_out:
+            shutil.copyfileobj(f_in, f_out)
